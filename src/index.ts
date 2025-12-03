@@ -18,6 +18,10 @@ export * from "./log/box";
 export * from "./log/banner";
 export * from "./log/timestamp";
 export * from "./log/logJSON";
+export { bubbleSort } from "./sorting/bubbleSort";
+export { quickSort } from "./sorting/quickSort";
+export { mergeSort } from "./sorting/mergeSort";
+export { timSort } from "./sorting/timSort";
 
 export type { JSONValue, GetJSONOptions, PostJSONOptions } from "./types/fetch";
 export type { TryCatchResult } from "./types/handlers";

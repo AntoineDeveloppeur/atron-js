@@ -146,13 +146,11 @@ if (err) {
 
 Returns a new array with duplicate values removed.
 
-
 ```ts
 unique([1, 2, 2, 3, 3, 3]); // [1, 2, 3]
 unique(["a", "b", "a", "c"]); // ["a", "b", "c"]
 unique([]); // []
 ```
-
 
 **How it works:**
 
@@ -212,6 +210,165 @@ flatten([1, 2, 3]); // [1, 2, 3]
 - Recursively flattens all nested arrays regardless of nesting depth.
 
 </details>
+
+### Sorting
+
+<details>
+<summary><strong>Introduction to sorting</strong></summary>
+This library provides **4 sorting algorithms** to handle different use cases and performance requirements.
+**Built-in support:** All algorithms work out-of-the-box with `number`, `bigint`, and `string` types.  
+**Custom types:** For objects or other data types, provide a custom comparator function (see below).
+<details>
+<summary><strong>Creating a custom comparator</strong></summary>
+A comparator is a function that takes two parameters and returns:
+- `-1` if the first value should come before the second
+- `0` if they are equal
+- `1` if the first value should come after the second
+
+**Example:** Sorting objects by a property
+
+```ts
+import { type Comparator } from "atron-js";
+interface Person {
+  name: string;
+  age: number;
+}
+// Define a comparator based on the age property
+const compareByAge: Comparator<Person> = (a: Person, b: Person) =>
+  a.age === b.age ? 0 : a.age < b.age ? -1 : 1;
+// Usage
+const younger: Person = { name: "Maria", age: 18 };
+const older: Person = { name: "John", age: 23 };
+compareByAge(younger, older); // -1 (Maria comes first)
+compareByAge(older, younger); // 1 (John comes after)
+compareByAge(younger, younger); // 0 (equal)
+```
+
+</details>
+
+The fastest is TimSort
+
+| Algorithm       | Best    | Average | Worst   | Memory                 | Stable | Method              |
+| --------------- | ------- | ------- | ------- | ---------------------- | ------ | ------------------- |
+| **Bubble sort** | n       | n²      | n²      | 1                      | Yes    | Exchanging          |
+| **Quicksort**   | n log n | n log n | n²      | log n (avg), n (worst) | No     | Partitioning        |
+| **Merge sort**  | n log n | n log n | n log n | n                      | Yes    | Merging             |
+| **Timsort**     | n       | n log n | n log n | n                      | Yes    | Insertion & Merging |
+
+</details>
+
+<details>
+<summary><strong><code>BubbleSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
+
+Returns a new array with sorted elements using bubble sort algorithm
+
+```ts
+bubbleSort([1, 3, 2, 0]); // [0,1,2,3]
+bubbleSort(["b", "d", "c", "a"]); // ['a','b','c','d']
+```
+
+**How it works:**
+
+- Iterate through the array, swap current value and the following one until the end of the array. Repeat until one iteration didn't swap any value.
+- Each iteration is coded to be one element shorter than the previous one. This is because last element of previous iteration is for sure the biggest
+</details>
+
+<details>
+<summary><strong><code>MergeSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
+
+Returns a new array with sorted elements using merge sort algorithm
+
+```ts
+mergeSort([1, 3, 2, 0]); // [0,1,2,3]
+mergeSort(["b", "d", "c", "a"]); // ['a','b','c','d']
+```
+
+**How it works:**
+
+- Split the array until they are only one element arrays
+- Merge those arrays two by two by comparing each elements
+</details>
+
+<details>
+<summary><strong><code>QuickSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
+
+Returns a new array with sorted elements using quick sort algorithm
+
+```ts
+mergeSort([1, 3, 2, 0]); // [0,1,2,3]
+mergeSort(["b", "d", "c", "a"]); // ['a','b','c','d']
+```
+
+**How it works:**
+
+- Get a pivot Element with median of three algorithm
+- Iterate through the array,
+  - push elements with less value than pivot in a "less" array
+  - push elements with greater value than pivot in a "more" array
+  - push elements with equal value than pivot in a "pivotValues" array
+- Merge those arrays
+- Repeat iteration on "less" and "more" array
+</details>
+
+<details>
+<summary><strong><code>TimSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
+
+Returns a new array with sorted elements using Tim sort-like algorithm
+This is not a full TimSort (no natural run detection, no run stack invariants, no galloping mode, and no advanced merge/memory optimizations)
+
+```ts
+timSort([1, 3, 2, 0]); // [0,1,2,3]
+timSort(["b", "d", "c", "a"]); // ['a','b','c','d']
+```
+
+**How it works:**
+
+- TimSort is a hybrid sorting algorithm that uses the ideas of Merge Sort and Insertion Sort.
+  1.  split the array into fixed-size runs (`run`)
+  2.  sort each run with insertion sort (description below)
+  3.  iteratively merge sort runs (doubling the merged size each pass)
+
+**What is insertion sort?**
+Insertion sort is a simple sorting algorithm that builds the final sorted array one element at a time:
+
+- it iterates from left to right,
+- for each element, it “inserts” it into the correct position within the already-sorted left part of the array,
+- by shifting larger elements one position to the right.
+  It is **very fast on small arrays** and **nearly-sorted data**, which is why TimSort-like implementations typically use it to sort small runs before the merge phase.
+
+**This is not a full TimSort**. A complete TimSort typically includes:
+
+- Natural runs detection
+  A “real” TimSort does not necessarily split the array into fixed-size runs. It detects already-ordered runs in the input (ascending or descending sequences). Descending runs are usually reversed so they become ascending, allowing the algorithm to take advantage of existing order in the data.
+
+- Minrun computation
+  TimSort computes a `minrun` value (based on `n`) and uses it to decide how runs should be formed/extended. Short runs are extended (typically using insertion sort) until they reach at least `minrun`, instead of using a constant run size such as `run = 32`.
+
+- Run stack + invariants
+  A complete TimSort maintains a stack of runs (each run is a pair like `(start, length)`) and does not merge runs “in a fixed pass order”. Instead, after pushing a new run onto the stack, TimSort enforces merge invariants on the run lengths to decide _when_ and _which_ runs to merge, preventing pathological merge orders.
+
+A common way to describe the invariants is to look at the top three runs on the stack:
+
+- `X` = third from the top
+- `Y` = second from the top
+- `Z` = top run
+
+TimSort repeatedly merges runs until both conditions hold:
+
+- `|X| > |Y| + |Z|`
+- `|Y| > |Z|`
+
+If an invariant is violated, TimSort performs a merge near the top of the stack (typically merging either `Y + Z` or `X + Y`, depending on the run sizes) and then checks the invariants again. This dynamic policy keeps merges reasonably balanced and helps guarantee the intended time complexity.
+
+- Advanced merge strategies
+  Real-world TimSort implementations use more sophisticated merge routines and policies than a straightforward merge: they may choose different merge directions, apply additional small optimizations, and carefully handle edge cases to improve performance while preserving stability.
+
+- Galloping mode
+  During a merge, TimSort can switch to “galloping mode” (exponential search followed by binary search) when one side wins repeatedly. This can significantly speed up merging on partially ordered data by skipping over ranges of elements quickly.
+
+- Memory optimizations
+TimSort usually reuses temporary buffers and manages memory more carefully (for example, keeping a reusable merge buffer) instead of allocating new temporary arrays for every merge.
+  </details>
 
 ### Objects
 
@@ -273,9 +430,12 @@ cachedCalc(5); // Logs "Computing...", returns 10
 cachedCalc(5); // Returns 10 (no log)
 
 // Usage with Time-To-Live (TTL)
-const fetchStatus = memoize(async () => {
-  return await getJSON("/status");
-}, { ttlMs: 5000 }); // Cache expires after 5 seconds
+const fetchStatus = memoize(
+  async () => {
+    return await getJSON("/status");
+  },
+  { ttlMs: 5000 },
+); // Cache expires after 5 seconds
 ```
 
 **Caveats:**
@@ -298,7 +458,7 @@ const onResize = debounce(() => console.log("resized"), 200);
 window.addEventListener("resize", onResize);
 
 // Leading: fire immediately, no trailing by default
-const onInputImmediate = debounce(val => console.log("immediate:", val), 300, { leading: true });
+const onInputImmediate = debounce((val) => console.log("immediate:", val), 300, { leading: true });
 onInputImmediate("a"); // logs immediately
 
 // Leading + trailing: first immediately, last after wait
