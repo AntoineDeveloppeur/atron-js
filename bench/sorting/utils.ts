@@ -71,7 +71,10 @@ export class ArrayGenerator {
     const ascendingChunkCount = Math.ceil(ascendingChunkSize / 2);
     for (let i = 0; i < ascendingChunkCount; i++) {
       const ascendingChunk: number[] = this.ascendingIntArr(ascendingChunkSize);
-      const randomInsertPosition = Math.floor(Math.random() * n);
+      // Add randomly the ascendingChunk without increasing array length
+      const maxInsertPosition = n - ascendingChunkSize;
+      const randomInsertPosition = Math.floor(Math.random() * (maxInsertPosition + 1));
+
       arr.splice(randomInsertPosition, ascendingChunkSize, ...ascendingChunk);
     }
     return arr;
@@ -79,11 +82,11 @@ export class ArrayGenerator {
 }
 
 export class RandomInt {
-  private readonly range: number;
+  readonly range: number;
   constructor(range?: number) {
     this.range = range || 20;
   }
-  public get(): number {
-    return Math.random() * this.range - this.range / 2;
+  get(): number {
+    return Math.floor(Math.random() * this.range - this.range / 2);
   }
 }

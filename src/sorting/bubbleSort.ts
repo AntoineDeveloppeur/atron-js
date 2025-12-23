@@ -68,9 +68,9 @@ export function bubbleSort<T>(arr: T[], cmp?: Comparator<T>): T[] {
   const clonedArray = deepClone(arr);
   const compareFn = cmp ?? (defaultComparator as Comparator<T>);
   let isSwapped = false;
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < clonedArray.length; i++) {
     isSwapped = false;
-    for (let j = 0; j < arr.length - i - 1; j++) {
+    for (let j = 0; j < clonedArray.length - i - 1; j++) {
       if (compareFn(clonedArray[j], clonedArray[j + 1]) === 1) {
         [clonedArray[j], clonedArray[j + 1]] = [clonedArray[j + 1], clonedArray[j]];
         isSwapped = true;

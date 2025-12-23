@@ -66,7 +66,7 @@ export function quickSort(arr: DefaultComparable[]): DefaultComparable[];
 export function quickSort<T>(arr: T[], cmp: Comparator<T>): T[];
 export function quickSort<T = number>(arr: T[], cmp?: Comparator<T>): T[] {
   const compareFn = cmp ?? (defaultComparator as Comparator<T>);
-  if (arr.length < 2) return arr;
+  if (arr.length < 2) return arr.slice();
 
   const pivot = getMedianPivot(arr, compareFn);
   let less: T[] = [];

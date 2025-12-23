@@ -1,4 +1,4 @@
-import test, { describe } from "node:test";
+import test, { describe, mock } from "node:test";
 import assert from "node:assert";
 import { ArrayGenerator } from "../../../bench/sorting/utils";
 
@@ -70,5 +70,11 @@ describe("partiallySortedArr", () => {
       }),
       true,
     );
+  });
+  test("return an array of request length", () => {
+    const length = 10;
+    mock.method(Math, "random", () => 0.99999);
+    const arr = arrayGenerator.partiallySortedArr(length);
+    assert.equal(arr.length, length);
   });
 });

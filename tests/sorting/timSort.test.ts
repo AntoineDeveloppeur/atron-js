@@ -38,7 +38,7 @@ describe("timSort with default comparator and numbers", () => {
 
 describe("timSort with random numbers", () => {
   const seeds = [1, 42, 123, 999, 1001];
-  const lengths = [5, 10, 20];
+  const lengths = [5, 10, 20, 100];
 
   seeds.forEach((seed) => {
     lengths.forEach((length) => {

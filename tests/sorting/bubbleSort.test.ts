@@ -37,8 +37,8 @@ describe("bubbleSort with default comparator and numbers", () => {
 });
 
 describe("bubbleSort with random numbers", () => {
-  const seeds = [1, 42, 123, 999, 1001];
-  const lengths = [5, 10, 20];
+  const seeds = [1, 54, 176, 968, 1102];
+  const lengths = [5, 9, 25, 105];
 
   seeds.forEach((seed) => {
     lengths.forEach((length) => {

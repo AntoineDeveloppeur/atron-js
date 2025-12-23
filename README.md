@@ -246,21 +246,21 @@ compareByAge(younger, younger); // 0 (equal)
 
 </details>
 
-The fastest is TimSort
+The fastest is TimSort.
 
 | Algorithm       | Best    | Average | Worst   | Memory                 | Stable | Method              |
 | --------------- | ------- | ------- | ------- | ---------------------- | ------ | ------------------- |
 | **Bubble sort** | n       | n²      | n²      | 1                      | Yes    | Exchanging          |
-| **Quicksort**   | n log n | n log n | n²      | log n (avg), n (worst) | No     | Partitioning        |
+| **Quick sort**  | n log n | n log n | n²      | log n (avg), n (worst) | No     | Partitioning        |
 | **Merge sort**  | n log n | n log n | n log n | n                      | Yes    | Merging             |
-| **Timsort**     | n       | n log n | n log n | n                      | Yes    | Insertion & Merging |
+| **Tim sort**    | n       | n log n | n log n | n                      | Yes    | Insertion & Merging |
 
 </details>
 
 <details>
 <summary><strong><code>BubbleSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
 
-Returns a new array with sorted elements using bubble sort algorithm
+Returns a new array with sorted elements using the bubble sort algorithm
 
 ```ts
 bubbleSort([1, 3, 2, 0]); // [0,1,2,3]
@@ -276,7 +276,7 @@ bubbleSort(["b", "d", "c", "a"]); // ['a','b','c','d']
 <details>
 <summary><strong><code>MergeSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
 
-Returns a new array with sorted elements using merge sort algorithm
+Returns a new array with sorted elements using the merge sort algorithm
 
 ```ts
 mergeSort([1, 3, 2, 0]); // [0,1,2,3]
@@ -292,11 +292,11 @@ mergeSort(["b", "d", "c", "a"]); // ['a','b','c','d']
 <details>
 <summary><strong><code>QuickSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
 
-Returns a new array with sorted elements using quick sort algorithm
+Returns a new array with sorted elements using the quick sort algorithm
 
 ```ts
-mergeSort([1, 3, 2, 0]); // [0,1,2,3]
-mergeSort(["b", "d", "c", "a"]); // ['a','b','c','d']
+quickSort([1, 3, 2, 0]); // [0,1,2,3]
+quickSort(["b", "d", "c", "a"]); // ['a','b','c','d']
 ```
 
 **How it works:**
@@ -313,8 +313,8 @@ mergeSort(["b", "d", "c", "a"]); // ['a','b','c','d']
 <details>
 <summary><strong><code>TimSort&lt;T&gt;(arr: T[],cmp?: (a: T,b: T) =>-1 | 0 | 1): T[]</code></strong></summary>
 
-Returns a new array with sorted elements using Tim sort-like algorithm
-This is not a full TimSort (no natural run detection, no run stack invariants, no galloping mode, and no advanced merge/memory optimizations)
+Returns a new array with sorted elements using a Tim sort-like algorithm.
+This is not a full TimSort (no natural run detection, no run stack invariants, no galloping mode, and no advanced merge/memory optimizations).
 
 ```ts
 timSort([1, 3, 2, 0]); // [0,1,2,3]

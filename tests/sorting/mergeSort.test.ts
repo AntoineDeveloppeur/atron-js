@@ -71,8 +71,8 @@ describe("mergeSort with default comparator and numbers", () => {
 });
 
 describe("mergeSort with random numbers", () => {
-  const seeds = [1, 42, 123, 999, 1001];
-  const lengths = [5, 10, 20];
+  const seeds = [1, 27, 138, 777, 1020];
+  const lengths = [7, 12, 23, 104];
 
   seeds.forEach((seed) => {
     lengths.forEach((length) => {

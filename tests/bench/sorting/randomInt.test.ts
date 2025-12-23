@@ -17,4 +17,9 @@ describe("get", () => {
     mock.method(Math, "random", () => 1);
     assert.equal(randomInt.get(), scale / 2);
   });
+  test("returns an integer, no decimal", () => {
+    mock.method(Math, "random", () => 0.31245);
+    const result = randomInt.get();
+    assert.ok(Number.isInteger(result));
+  });
 });

@@ -40,7 +40,7 @@ describe("getFormattedElapsedTime", () => {
   test(`return a result close to ${duration} ms`, () => {
     const formattedElapsedTime = getFormattedElapsedTime(wait, duration);
     const ms = Number(formattedElapsedTime.replace(" ms", ""));
-    const tolerance = 20; // 20 ms to be sure test works in all environments including CI
+    const tolerance = 100; // 100 ms to be sure test works in all environments including CI
     assert.ok(ms >= duration && ms <= duration + tolerance);
   });
 });

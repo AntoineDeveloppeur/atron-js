@@ -8,8 +8,6 @@ export interface sortingAlgorithmList {
   run: <T = number>(arr: T[], cmp?: Comparator<T>) => T[];
 }
 
-export type AlgorithmKey = "Quick Sort time" | "Merge Sort time";
-
 export type ResultLine = {
   "Array type": string;
   length: string;

@@ -119,7 +119,7 @@ function merge<T = number>(arr: T[], left: number, mid: number, right: number, c
     j = 0,
     k = left;
   while (i < len1 && j < len2) {
-    if (cmp(leftArr[i], rightArr[i]) <= 0) {
+    if (cmp(leftArr[i], rightArr[j]) <= 0) {
       arr[k] = leftArr[i];
       i++;
     } else {

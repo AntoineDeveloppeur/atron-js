@@ -47,8 +47,8 @@ describe("quickSort with default comparator and numbers", () => {
 });
 
 describe("quickSort with random numbers", () => {
-  const seeds = [1, 42, 123, 999, 1001];
-  const lengths = [5, 10, 20];
+  const seeds = [1, 41, 121, 888, 1013];
+  const lengths = [6, 11, 22, 103];
 
   seeds.forEach((seed) => {
     lengths.forEach((length) => {
